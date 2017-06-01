@@ -16,19 +16,54 @@
 # Configure db2 module
 class db2::install {
 
-  validate_re($db2::instance_name,  '^[a-zA-Z0-9]{1,8}$')  # CHAR(8)  && !/w && ![A-Z]
-  validate_re($db2::instance_user,  '^[a-zA-Z0-9]{1,8}$')  # CHAR(8)  && !/w && ![A-Z]
-  validate_re($db2::instance_group, '^[a-zA-Z0-9]{1,30}$') # CHAR(30) && !/w
-  validate_re($db2::fenced_user,    '^[a-zA-Z0-9]{1,8}$')  # CHAR(8)  && !/w && ![A-Z]
-  validate_re($db2::fenced_group,   '^[a-zA-Z0-9]{1,30}$') # CHAR(30) && !/w
-  validate_re($db2::installer_source_dir, '(?<!\/)$') # Must not end in trailing slash
-  validate_re($db2::installer_target_dir, '(?<!\/)$') # Must not end in trailing slash
+  validate_legacy(
+    Optional[String],
+    'validate_re',
+    $db2::instance_name,
+    ['^[a-zA-Z0-9]{1,8}$']
+  )
+  validate_legacy(
+    Optional[String],
+    'validate_re',
+    $db2::instance_user,
+    ['^[a-zA-Z0-9]{1,8}$'] #CHAR(8) && !/w
+  )
+  validate_legacy(
+    Optional[String],
+    'validate_re',
+    $db2::instance_group,
+    ['^[a-zA-Z0-9]{1,30}$'] #CHAR(30) && !/w
+  )
+  validate_legacy(
+    Optional[String],
+    'validate_re',
+    $db2::fenced_user,
+    ['^[a-zA-Z0-9]{1,8}$'] #CHAR(8) && !/w
+  )
+  validate_legacy(
+    Optional[String],
+    'validate_re',
+    $db2::fenced_group,
+    ['^[a-zA-Z0-9]{1,30}$'] #CHAR(30) && !/w
+  )
+  validate_legacy(
+    Optional[String],
+    'validate_re',
+    $db2::installer_source_dir,
+    ['(?<!\/)$'] # Must not end in trailing slash
+  )
+  validate_legacy(
+    Optional[String],
+    'validate_re',
+    $db2::installer_target_dir,
+    ['(?<!\/)$'] # Must not end in trailing slash
+  )
 
   # If we're not in vagrant, then assert that our passwords aren't 'vagrant'.
   if $::is_vagrant != 'true' { # lint:ignore:quoted_booleans
-    validate_re($db2::instance_user_password,  '^(?!vagrant$).*$')
-    validate_re($db2::fenced_user_password,    '^(?!vagrant$).*$')
-    validate_re($db2::password_salt, '^(?!vagrant$).*$')
+    validate_legacy(Optional[String], 'validate_re', $db2::instance_user_password, ['^(?!vagrant$).*$'])
+    validate_legacy(Optional[String], 'validate_re', $db2::fenced_user_password, ['^(?!vagrant$).*$'])
+    validate_legacy(Optional[String], 'validate_re', $db2::password_salt, ['^(?!vagrant$).*$'])
     # TODO: installer_source_dir != *vagrant*
   }
 
@@ -99,7 +134,7 @@ class db2::install {
     unless   => $exec_unless_install_db2,
     before   => Service['db2fmcd'],
     provider => 'shell',
-    timeout  => '900',
+    timeout  => $db2::setup_timeout,
     require  => [
       User[$db2::instance_user],
       User[$db2::fenced_user],
@@ -107,21 +142,4 @@ class db2::install {
       File[$db2::fenced_user_home],
       ],
   }
-
-  # Create systemd unit file.
-  file{'/etc/systemd/system/db2fmcd.service':
-    content => template('db2/db2fmcd.service'),
-    mode    => '0644',
-  } ->
-  exec{'db2_reload_units':
-    command     => 'systemctl daemon-reload',
-    provider    => 'shell',
-    refreshonly => true,
-  } ->
-  service{'db2fmcd':
-    ensure  => running,
-    enable  => true,
-    require => Exec['install_db2'],
-  }
-
 }

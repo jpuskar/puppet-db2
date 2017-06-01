@@ -1,18 +1,7 @@
 # Class: db2
 # ===========================
-# TODO: Parameter descriptions
-# TODO: Tests
 #
 # Full description of class db2 here.
-#
-# Parameters
-# ----------
-#
-# * `package_name`
-#   (string) Name of package to install. Defaults to OS default name.
-#
-# * `service_name`
-#   (string) Name of the service to start. Defaults to OS default name.
 #
 # Requires
 # --------
@@ -40,10 +29,9 @@ class db2 (
   $password_salt               = 'vagrant',
   $installer_source_dir        = '/vagrant/vagrant',
   $installer_target_dir        = '/opt/ibm/db2/V10.1',
-  $install_prereqs             = true,
-  ) inherits ::db2::params {
+  $setup_timeout               = 900,
+  ) {
 
-  class { 'db2::install': } ->
-  class { 'db2::config': } ~>
-  class { 'db2::service': }
+  class { 'db2::install': }
+  ~> class { 'db2::service': }
 }

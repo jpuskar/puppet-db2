@@ -7,10 +7,19 @@
 class db2::service {
   assert_private()
 
-  # service { $::db2::service_name:
-  #   ensure     => running,
-  #   enable     => true,
-  #   hasstatus  => true,
-  #   hasrestart => true,
-  # }
+  # Create systemd unit file.
+  file{'/etc/systemd/system/db2fmcd.service':
+    content => template('db2/db2fmcd.service'),
+    mode    => '0644',
+  }
+  -> exec{'db2_reload_units':
+    command     => 'systemctl daemon-reload',
+    provider    => 'shell',
+    refreshonly => true,
+  }
+  -> service{'db2fmcd':
+    ensure  => running,
+    enable  => true,
+    require => Exec['install_db2'],
+  }
 }

@@ -7,3 +7,5 @@ vagrant/
 *.iml
 out
 gen
+
+spec/fixtures/modules/
