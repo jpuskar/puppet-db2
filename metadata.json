@@ -1,6 +1,6 @@
 {
   "name": "jpuskar-db2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "jpuskar",
   "summary": "Installs and configures DB2.",
   "license": "Apache-2.0",
@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 4.6.0"
+      "version_requirement": ">= 4.13.0"
     }
   ],
   "operatingsystem_support": [
