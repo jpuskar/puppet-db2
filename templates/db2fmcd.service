@@ -1,0 +1,9 @@
+[Unit]
+Description=<%= scope['db2::systemd_service_description'] %>
+
+[Service]
+ExecStart=<%= scope['db2::installer_target_dir'] %>/bin/db2fmcd
+Restart=always
+
+[Install]
+WantedBy=default.target

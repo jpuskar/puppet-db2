@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+vagrant/
+.vagrant/
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen

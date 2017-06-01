@@ -1,0 +1,22 @@
+{
+  "name": "jpuskar-db2",
+  "version": "0.1.0",
+  "author": "jpuskar",
+  "summary": "Installs and configures DB2.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/jpuskar/puppet-db2",
+  "project_page": "https://github.com/jpuskar/puppet-db2",
+  "issues_url": "https://github.com/jpuskar/puppet-db2/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 4.6.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [ "6", "7" ]
+    }
+  ]
+}

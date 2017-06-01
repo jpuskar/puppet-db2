@@ -1,0 +1,11 @@
+** https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.qb.server.doc/doc/r0007505.html
+PROD                          = <%= scope['db2::product'] %>
+FILE                          = <%= scope['db2::installer_target_dir'] %>
+LIC_AGREEMENT                 = ACCEPT                  ** ACCEPT or DECLINE
+INTERACTIVE                   = MACHINE                 ** NONE, YES, MACHINE
+INSTALL_TYPE                  = CUSTOM                  ** TYPICAL, COMPACT, CUSTOM
+INSTANCE                      = DB2_INST                ** char(8)  no spaces
+DB2_INST.NAME                 = <%= scope['db2::instance_name'] %>   ** char(8)  no spaces, no upper case letters
+DB2_INST.AUTOSTART            = YES                     ** YES or NO
+DB2_INST.START_DURING_INSTALL = YES                     ** YES or NO. Default is YES.
+DB2_INST.FENCED_USERNAME      = <%= scope['db2::fenced_user'] %>     ** char(8)  no spaces, no upper case letters
