@@ -10,7 +10,8 @@
 #
 class db2 (
   $product                     = 'EXPRESS_EDITION',
-  $systemd_service_description = 'DB2V101',
+  $systemd_service_description = 'DB2 Instance',
+  $systemd_service_accounting  = true,
   $instance_name               = 'db2inst1',
   $instance_group              = 'db2iadm1',
   $instance_group_gid          = '4977',
@@ -31,6 +32,7 @@ class db2 (
   $installer_target_dir        = '/opt/ibm/db2/V10.1',
   $setup_timeout               = 900,
   $install_ksh                 = true,
+  $db2_major_version           = '10',
   ) {
 
   class { 'db2::install': }

@@ -8,19 +8,22 @@ class db2::service {
   assert_private()
 
   # Create systemd unit file.
-  file{'/etc/systemd/system/db2fmcd.service':
-    content => template('db2/db2fmcd.service'),
+  file{"/etc/systemd/system/${db2::instance_name}.service":
+    content => template('db2/db2inst1.service.erb'),
     mode    => '0644',
     notify  => Exec['db2_reload_units'],
   }
+
   exec{'db2_reload_units':
     command     => 'systemctl daemon-reload',
     provider    => 'shell',
     refreshonly => true,
   }
-  ~> service{'db2fmcd':
+  ~> service{$db2::instance_name:
     ensure  => running,
     enable  => true,
-    require => Exec['install_db2'],
+    require => Exec["install_db2_${db2::instance_name}"],
   }
+
+  Exec<| name == 'db2_reload_units' |> -> Service<| name == $db2::instance_name |>
 }

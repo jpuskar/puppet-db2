@@ -7,5 +7,5 @@ INSTALL_TYPE                  = CUSTOM                  ** TYPICAL, COMPACT, CUS
 INSTANCE                      = DB2_INST                ** char(8)  no spaces
 DB2_INST.NAME                 = <%= scope['db2::instance_name'] %>   ** char(8)  no spaces, no upper case letters
 DB2_INST.AUTOSTART            = YES                     ** YES or NO
-DB2_INST.START_DURING_INSTALL = YES                     ** YES or NO. Default is YES.
+DB2_INST.START_DURING_INSTALL = NO                      ** YES or NO. Default is YES.
 DB2_INST.FENCED_USERNAME      = <%= scope['db2::fenced_user'] %>     ** char(8)  no spaces, no upper case letters
