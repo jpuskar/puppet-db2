@@ -30,6 +30,7 @@ class db2 (
   $installer_source_dir        = '/vagrant/vagrant',
   $installer_target_dir        = '/opt/ibm/db2/V10.1',
   $setup_timeout               = 900,
+  $install_ksh                 = true,
   ) {
 
   class { 'db2::install': }
