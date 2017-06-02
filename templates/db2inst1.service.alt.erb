@@ -1,0 +1,23 @@
+[Unit]
+Description=DB2 instance db2inst1
+After=rtvscand.service
+#After=db2fmcd.service
+#Requires=db2fmcd.service
+#Wants=db2fmcd.service
+
+[Service]
+Type=forking
+User=db2inst1
+CPUAccounting=1
+MemoryAccounting=1
+BlockIOAccounting=1
+#Slice=workload-database.slice
+Environment=DB2INSTANCE=db2inst1
+Environment=IBM_DB_LIB=/data/db2inst1/sqllib/lib
+Environment=IBM_DB_DIR=/data/db2inst1/sqllib
+Environment=LD_LIBRARY_PATH=/data/db2inst1/sqllib/lib64:/data/db2inst1/sqllib/lib64/gskit:/data/db2inst1/sqllib/lib32
+Environment=IBM_DB_HOME=/data/db2inst1/sqllib
+Environment=PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/data/db2inst1/sqllib/bin:/data/db2inst1/sqllib/adm:/data/db2inst1/sqllib/misc:/data/db2inst1/.local/bin:/data/db2inst1/bin
+Environment=DB2_HOME=/data/db2inst1/sqllib
+Environment=IBM_DB_INCLUDE=/data/db2inst1/sqllib/include
+Environment=CLASSPATH=/data/db2inst1/sqllib/java/db2java.zip:/data/db2inst1/sqllib/function:/data/db2inst1/s

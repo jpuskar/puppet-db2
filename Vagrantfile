@@ -24,7 +24,7 @@ export FACTER_is_vagrant='true'
 [ -d /tmp/modules/db2 ] || mkdir -p /tmp/modules/db2
 mount | grep /tmp/modules/db2 || mount --bind /vagrant /tmp/modules/db2
 puppet module install puppetlabs-stdlib
-puppet apply --detailed-exitcodes --modulepath '/tmp/modules:/etc/puppetlabs/code/environments/production/modules' -e "include '::db2'"
+puppet apply --modulepath '/tmp/modules:/etc/puppetlabs/code/environments/production/modules' -e "include '::db2'"
 SCRIPT
 
     config.vm.provision "shell", inline: $script

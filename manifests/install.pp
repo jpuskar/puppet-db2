@@ -3,17 +3,6 @@
 #
 # This class is called from db2 for install.
 #
-# class db2::install {
-#   assert_private()
-#
-#   package { $::db2::package_name:
-#     ensure => present,
-#   }
-# }
-# Class: profile::db2
-# ===========================
-#
-# Configure db2 module
 class db2::install {
 
   validate_legacy(
@@ -120,7 +109,7 @@ class db2::install {
   }
 
   # DB2 response file
-  $db2_response_file_path = "${db2::installer_source_dir}/exp/db2exp.rsp"
+  $db2_response_file_path = "${db2::installer_source_dir}/exp/db2exp_${db2::instance_name}.rsp"
   file{$db2_response_file_path:
     content => template('db2/db2exp.rsp.erb'),
   }
@@ -129,10 +118,10 @@ class db2::install {
   $exec_cmd_install_db2 = "${db2::installer_source_dir}/exp/db2setup -r ${db2_response_file_path}"
   $db2ilist_path = "${db2::installer_target_dir}/bin/db2ilist"
   $exec_unless_install_db2 = "${db2ilist_path} | grep -c ${db2::instance_name}"
-  exec{'install_db2':
+  exec{"install_db2_${db2::instance_name}":
     command  => $exec_cmd_install_db2,
     unless   => $exec_unless_install_db2,
-    before   => Service['db2fmcd'],
+    before   => Service[$db2::instance_name],
     provider => 'shell',
     timeout  => $db2::setup_timeout,
     require  => [
@@ -143,6 +132,14 @@ class db2::install {
       ],
   }
 
+  # Disable fault monitor daemon since we're using systemd.
+  Exec { 'db2_disable_fault_monitor_daemon':
+    command  => "${db2::installer_target_dir}/bin/db2fmcu -d",
+    unless   => "${db2::installer_target_dir}/bin/db2fmcu | grep -i \"FMC\\:\\ down\"",
+    provider => 'shell',
+    require  => Exec["install_db2_${db2::instance_name}"],
+  }
+
   # For adm scripts.
   if $db2::install_ksh {
     ensure_resource(
@@ -151,9 +148,9 @@ class db2::install {
       { ensure => present }
     )
   }
-  file { '/etc/profile.d/append-db2-path.sh':
+  file { '/etc/profile.d/db2_bash_options.sh':
     mode    => '0644',
-    content => "PATH=\$PATH:${db2::installer_target_dir}/bin",
+    content => template('db2/db2_bash_options.sh.erb'),
   }
 
 }

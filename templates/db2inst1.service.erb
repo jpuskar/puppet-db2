@@ -2,12 +2,16 @@
 Description=<%= scope['db2::systemd_service_description'] %>
 
 [Service]
+Type=forking
 ExecStart=<%= scope['db2::instance_user_home'] %>/sqllib/adm/db2start
 ExecStop=<%= scope['db2::instance_user_home'] %>/sqllib/adm/db2stop
 User=<%= scope['db2::instance_user'] %>
-Type=oneshot
-RemainAfterExit=yes
-Restart=no
+Environment=DB2INSTANCE=<%= scope['db2::instance_name'] %>
+<% if scope['db2::systemd_service_accounting'] -%>
+CPUAccounting=1
+MemoryAccounting=1
+BlockIOAccounting=1
+<% end -%>
 
 [Install]
 WantedBy=default.target
