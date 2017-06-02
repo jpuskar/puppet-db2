@@ -2,8 +2,12 @@
 Description=<%= scope['db2::systemd_service_description'] %>
 
 [Service]
-ExecStart=<%= scope['db2::installer_target_dir'] %>/bin/db2fmcd
-Restart=always
+ExecStart=<%= scope['db2::instance_user_home'] %>/sqllib/adm/db2start
+ExecStop=<%= scope['db2::instance_user_home'] %>/sqllib/adm/db2stop
+User=<%= scope['db2::instance_user'] %>
+Type=oneshot
+RemainAfterExit=yes
+Restart=no
 
 [Install]
 WantedBy=default.target

@@ -142,4 +142,18 @@ class db2::install {
       File[$db2::fenced_user_home],
       ],
   }
+
+  # For adm scripts.
+  if $db2::install_ksh {
+    ensure_resource(
+      'package',
+      'ksh',
+      { ensure => present }
+    )
+  }
+  file { '/etc/profile.d/append-db2-path.sh':
+    mode    => '0644',
+    content => "PATH=\$PATH:${db2::installer_target_dir}/bin",
+  }
+
 }
