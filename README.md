@@ -45,10 +45,32 @@ Please see the individual manifest files for additional parameters.
 
 ## Limitations
 
-This has only been tested with DB2 Express v10 on Centos7.
+This has only been tested with:
+
++ DB2 Express v10 on Centos 7.
++ DB2 Express v11 on Centos 7.
 
 ## Development
 
-This module includes a Vagrantfile for easy testing. Just install vagrant and virtualbox, clone this repo, and 'vagrant up'.
+This module includes a Vagrantfile for easy testing.
+ 
+Instructions:
+ 1. Install Vagrant.
+ 1. Install Virtualbox.
+ 1. Clone this repo.
+ 1. Stage the db2 binaries.
+ 1. Run `vagrant up`.
 
-To stage the DB2 media, make a folder in the repo root called "vagrant", and ensure that the folder structure looks like: "./puppet-db2/vagrant/exp/db2".
+### Staging the binaries
+The db2 installer file must be extracted, and db2setup must reside in `./puppet-db2/vagrant/v10/exp/db2setup`.
+
+The folder structure must look like the following:
+```bash
+./puppet-db2/vagrant/
+./puppet-db2/vagrant/v10/
+./puppet-db2/vagrant/v10/exp/
+./puppet-db2/vagrant/v10/exp/db2setup
+./puppet-db2/Vagrantfile
+```
+
+To stage the DB2 media, make a folder in the repo root called "vagrant", and ensure that the folder structure looks like: `./puppet-db2/vagrant/v10/exp/db2`.
