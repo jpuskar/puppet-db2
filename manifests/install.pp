@@ -50,9 +50,24 @@ class db2::install {
 
   # If we're not in vagrant, then assert that our passwords aren't 'vagrant'.
   if $::is_vagrant != 'true' { # lint:ignore:quoted_booleans
-    validate_legacy(Optional[String], 'validate_re', $db2::instance_user_password, ['^(?!vagrant$).*$'])
-    validate_legacy(Optional[String], 'validate_re', $db2::fenced_user_password, ['^(?!vagrant$).*$'])
-    validate_legacy(Optional[String], 'validate_re', $db2::password_salt, ['^(?!vagrant$).*$'])
+    validate_legacy(
+      Optional[String],
+      'validate_re',
+      $db2::instance_user_password,
+      ['^(?!vagrant$).*$']
+    )
+    validate_legacy(
+      Optional[String],
+      'validate_re',
+      $db2::fenced_user_password,
+      ['^(?!vagrant$).*$']
+    )
+    validate_legacy(
+      Optional[String],
+      'validate_re',
+      $db2::password_salt,
+      ['^(?!vagrant$).*$']
+    )
     # TODO: installer_source_dir != *vagrant*
   }
 
@@ -129,6 +144,7 @@ class db2::install {
       User[$db2::fenced_user],
       File[$db2::instance_user_home],
       File[$db2::fenced_user_home],
+      File[$db2_response_file_path],
       ],
   }
 

@@ -9,7 +9,7 @@
 # * puppetlabs/stdlib >= 4.6
 #
 class db2 (
-  $product                     = 'EXPRESS_EDITION',
+  $product                     = 'EXPRESS_EDITION', #for v11 use DB2_SERVER_EDITION
   $systemd_service_description = 'DB2 Instance',
   $systemd_service_accounting  = true,
   $instance_name               = 'db2inst1',
@@ -28,11 +28,10 @@ class db2 (
   $fenced_user_password        = 'vagrant',
   $fenced_user_home            = '/home/db2sdfe1',
   $password_salt               = 'vagrant',
-  $installer_source_dir        = '/vagrant/vagrant',
+  $installer_source_dir        = '/vagrant/vagrant/v10',
   $installer_target_dir        = '/opt/ibm/db2/V10.1',
   $setup_timeout               = 900,
   $install_ksh                 = true,
-  $db2_major_version           = '10',
   ) {
 
   class { 'db2::install': }
