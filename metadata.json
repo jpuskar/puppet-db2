@@ -1,6 +1,6 @@
 {
   "name": "jpuskar-db2",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "jpuskar",
   "summary": "Installs and configures DB2.",
   "license": "Apache-2.0",

@@ -72,5 +72,3 @@ The folder structure must look like the following:
 ./puppet-db2/vagrant/v10/exp/db2setup
 ./puppet-db2/Vagrantfile
 ```
-
-To stage the DB2 media, make a folder in the repo root called "vagrant", and ensure that the folder structure looks like: `./puppet-db2/vagrant/v10/exp/db2`.
